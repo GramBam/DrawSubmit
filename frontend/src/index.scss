@@ -68,18 +68,19 @@ nav {
   justify-content: space-around;
 }
 
-.colorContainer {
+.toolContainer {
   display: flex;
   flex-direction: row;
   width: 150px;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 0 25px;
+  margin: 10px 25px;
 
   button {
     border: 1px solid;
     width: 50px;
-    height: 35px
+    height: 35px;
+    cursor: pointer;
   }
 
   input {
@@ -87,7 +88,7 @@ nav {
   }
 }
 
-.colorTool {
+.tool {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -95,5 +96,38 @@ nav {
   p {
     font-size: 24px;
     font-weight: 600;
+  }
+}
+
+.dot {
+  background-color: #000;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.options {
+  display: flex;
+  flex-direction: row;
+  width: 50vw;
+  justify-content: space-around;
+
+  margin: 0 0 15px 0;
+
+  button {
+    width: 105px;
+    height: 30px;
+    background-color: #000;
+    border: none;
+    color: #FFC600;
+    font-size: 22px;
+    border-radius: 15px;
+    cursor: pointer;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .toolsAndCanvas {
+    flex-direction: column;
+    margin: 0px
   }
 }

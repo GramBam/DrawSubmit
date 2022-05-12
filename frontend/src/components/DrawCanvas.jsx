@@ -5,7 +5,6 @@ function DrawCanvas({ canvasRef, contextRef }) {
 
   useEffect(() => {
     const canvas = canvasRef.current
-    console.log(window.innerWidth);
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
     canvas.style.width = `${window.innerWidth / 2}px`
@@ -17,10 +16,10 @@ function DrawCanvas({ canvasRef, contextRef }) {
     context.strokeStyle = 'black'
     context.lineWidth = 5
     contextRef.current = context
-  }, [])
+  }, [canvasRef, contextRef])
 
-  const drawStart = ({ nativeEvent }) => {
-    const { offsetX, offsetY } = nativeEvent
+  const drawStart = (e) => {
+    const { offsetX, offsetY } = e.nativeEvent
     contextRef.current.beginPath()
     contextRef.current.moveTo(offsetX, offsetY)
     contextRef.current.lineTo(offsetX, offsetY)
@@ -33,11 +32,11 @@ function DrawCanvas({ canvasRef, contextRef }) {
     setDrawing(false)
   }
 
-  const draw = ({ nativeEvent }) => {
+  const draw = (e) => {
     if (!drawing) {
       return
     }
-    const { offsetX, offsetY } = nativeEvent
+    const { offsetX, offsetY } = e.nativeEvent
     contextRef.current.lineTo(offsetX, offsetY)
     contextRef.current.stroke()
   }
