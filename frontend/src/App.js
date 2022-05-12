@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import axios from 'axios'
+import PicDisplay from "./components/PicDisplay";
 
 function App() {
 
@@ -7,6 +8,7 @@ function App() {
   const contextRef = useRef(null)
   const [drawing, setDrawing] = useState(false)
   const [pics, setPics] = useState();
+  const [picsLoaded, setPicsLoaded] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -24,7 +26,8 @@ function App() {
 
     const getPics = async () => await axios.get('/api/entries/')
       .then(res => {
-        setPics(res);
+        setPics(res.data);
+        setPicsLoaded(true)
       })
     getPics();
   }, [])
@@ -68,8 +71,14 @@ function App() {
 
   const saveImage = async () => {
     const canvas = canvasRef.current
-    let image = canvas.toDataURL('image/jpeg');
+    let image = canvas.toDataURL('image/png');
     await axios.post('/api/entries/', { dataURL: image })
+    const getPics = async () => await axios.get('/api/entries/')
+      .then(res => {
+        setPics(res.data);
+        setPicsLoaded(true)
+      })
+    getPics();
   }
 
   const clear = () => {
@@ -90,17 +99,17 @@ function App() {
           <button id='3' onClick={brushChange}>Small Brush</button>
           <button onClick={clear}>Clear</button>
           <button onClick={saveImage}>Submit</button>
-          <button onClick={() => console.log(pics.data)}>LOG DATA</button>
         </nav>
-        <div>
-          {/* {pics.data.map((pic) => (<img src={pic.dataURL} key={pic._id} />))} */}
-        </div>
         <canvas
           onMouseDown={drawStart}
           onMouseUp={drawEnd}
           onMouseMove={draw}
           ref={canvasRef}
         />
+
+        {picsLoaded &&
+          <PicDisplay pics={pics} />
+        }
       </div>
     </>
 
