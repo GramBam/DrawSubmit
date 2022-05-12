@@ -5,10 +5,13 @@ function DrawCanvas({ canvasRef, contextRef }) {
 
   useEffect(() => {
     const canvas = canvasRef.current
-    canvas.width = window.innerWidth
-    canvas.height = window.innerHeight
-    canvas.style.width = `${window.innerWidth / 2}px`
-    canvas.style.height = `${window.innerHeight / 2}px`
+    console.log(window.innerWidth);
+    let width = window.innerWidth < 800 ? 550 : window.innerWidth
+    let height = window.innerWidth < 800 ? 600 : window.innerHeight
+    canvas.width = width
+    canvas.height = height
+    canvas.style.width = `${width / 2}px`
+    canvas.style.height = `${height / 2}px`
 
     const context = canvas.getContext('2d')
     context.scale(2, 2)

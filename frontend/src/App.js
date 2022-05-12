@@ -14,7 +14,7 @@ function App() {
   useEffect(() => {
     const getPics = async () => await axios.get('/api/entries/')
       .then(res => {
-        setPics(res.data);
+        setPics(res.data.reverse());
         setPicsLoaded(true)
       })
     getPics();
