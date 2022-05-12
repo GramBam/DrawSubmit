@@ -1,29 +1,15 @@
 import { useRef, useEffect, useState } from "react";
 import axios from 'axios'
-import PicDisplay from "./components/PicDisplay";
+import PicsDisplay from "./components/PicsDisplay";
+import DrawCanvas from "./components/DrawCanvas";
 
 function App() {
-
-  const canvasRef = useRef(null)
-  const contextRef = useRef(null)
-  const [drawing, setDrawing] = useState(false)
   const [pics, setPics] = useState();
   const [picsLoaded, setPicsLoaded] = useState(false);
+  const canvasRef = useRef(null)
+  const contextRef = useRef(null)
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    canvas.width = window.innerWidth
-    canvas.height = window.innerHeight
-    canvas.style.width = `${window.innerWidth / 2}px`
-    canvas.style.height = `${window.innerHeight / 2}px`
-
-    const context = canvas.getContext('2d')
-    context.scale(2, 2)
-    context.lineCap = 'round'
-    context.strokeStyle = 'black'
-    context.lineWidth = 5
-    contextRef.current = context
-
     const getPics = async () => await axios.get('/api/entries/')
       .then(res => {
         setPics(res.data);
@@ -31,30 +17,6 @@ function App() {
       })
     getPics();
   }, [])
-
-
-  const drawStart = ({ nativeEvent }) => {
-    const { offsetX, offsetY } = nativeEvent
-    contextRef.current.beginPath()
-    contextRef.current.moveTo(offsetX, offsetY)
-    contextRef.current.lineTo(offsetX, offsetY)
-    contextRef.current.stroke()
-    setDrawing(true)
-  }
-
-  const drawEnd = () => {
-    contextRef.current.closePath()
-    setDrawing(false)
-  }
-
-  const draw = ({ nativeEvent }) => {
-    if (!drawing) {
-      return
-    }
-    const { offsetX, offsetY } = nativeEvent
-    contextRef.current.lineTo(offsetX, offsetY)
-    contextRef.current.stroke()
-  }
 
   const colorChange = (e) => {
     const context = canvasRef.current.getContext('2d')
@@ -66,7 +28,6 @@ function App() {
     const context = canvasRef.current.getContext('2d')
     context.lineWidth = parseInt(e.target.id)
     contextRef.current = context
-
   }
 
   const saveImage = async () => {
@@ -100,15 +61,11 @@ function App() {
           <button onClick={clear}>Clear</button>
           <button onClick={saveImage}>Submit</button>
         </nav>
-        <canvas
-          onMouseDown={drawStart}
-          onMouseUp={drawEnd}
-          onMouseMove={draw}
-          ref={canvasRef}
-        />
+
+        <DrawCanvas canvasRef={canvasRef} contextRef={contextRef} />
 
         {picsLoaded &&
-          <PicDisplay pics={pics} />
+          <PicsDisplay pics={pics.reverse()} />
         }
       </div>
     </>
