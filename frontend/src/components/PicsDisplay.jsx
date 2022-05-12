@@ -1,7 +1,6 @@
 import PicItem from "./PicItem";
 
 function PicsDisplay({ pics }) {
-  console.log(pics, 'hello');
 
   return (
     <div className="picContainer">

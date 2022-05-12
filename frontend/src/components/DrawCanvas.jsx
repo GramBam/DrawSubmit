@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 
 function DrawCanvas({ canvasRef, contextRef }) {
   const [drawing, setDrawing] = useState(false)
 
   useEffect(() => {
     const canvas = canvasRef.current
+    console.log(window.innerWidth);
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
     canvas.style.width = `${window.innerWidth / 2}px`
@@ -44,8 +45,11 @@ function DrawCanvas({ canvasRef, contextRef }) {
   return (
     <canvas
       onMouseDown={drawStart}
+      onTouchStart={drawStart}
       onMouseUp={drawEnd}
+      onTouchEnd={drawEnd}
       onMouseMove={draw}
+      onTouchMove={draw}
       ref={canvasRef}
     />
   )

@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import axios from 'axios'
 import PicsDisplay from "./components/PicsDisplay";
 import DrawCanvas from "./components/DrawCanvas";
+import ColorTool from "./components/ColorTool";
 
 function App() {
   const [pics, setPics] = useState();
@@ -17,18 +18,6 @@ function App() {
       })
     getPics();
   }, [])
-
-  const colorChange = (e) => {
-    const context = canvasRef.current.getContext('2d')
-    context.strokeStyle = e.target.id
-    contextRef.current = context
-  }
-
-  const brushChange = (e) => {
-    const context = canvasRef.current.getContext('2d')
-    context.lineWidth = parseInt(e.target.id)
-    contextRef.current = context
-  }
 
   const saveImage = async () => {
     const canvas = canvasRef.current
@@ -51,7 +40,7 @@ function App() {
   return (
     <>
       <div className="main">
-        <nav>
+        {/* <nav>
           <button id='black' onClick={colorChange}>BLACK</button>
           <button id='blue' onClick={colorChange}>BLUE</button>
           <button id='red' onClick={colorChange}>RED</button>
@@ -60,13 +49,15 @@ function App() {
           <button id='3' onClick={brushChange}>Small Brush</button>
           <button onClick={clear}>Clear</button>
           <button onClick={saveImage}>Submit</button>
-        </nav>
+        </nav> */}
 
-        <DrawCanvas canvasRef={canvasRef} contextRef={contextRef} />
+        <div className="toolsAndCanvas">
+          <ColorTool canvasRef={canvasRef} contextRef={contextRef} />
+          <DrawCanvas canvasRef={canvasRef} contextRef={contextRef} />
+          <ColorTool canvasRef={canvasRef} contextRef={contextRef} />
+        </div>
 
-        {picsLoaded &&
-          <PicsDisplay pics={pics.reverse()} />
-        }
+        {picsLoaded && <PicsDisplay pics={pics.reverse()} />}
       </div>
     </>
 

@@ -58,3 +58,42 @@ nav {
     cursor: pointer;
   }
 }
+
+.toolsAndCanvas {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 35px 5px;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.colorContainer {
+  display: flex;
+  flex-direction: row;
+  width: 150px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 25px;
+
+  button {
+    border: 1px solid;
+    width: 50px;
+    height: 35px
+  }
+
+  input {
+    margin: 10px 0 0 0
+  }
+}
+
+.colorTool {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  p {
+    font-size: 24px;
+    font-weight: 600;
+  }
+}
