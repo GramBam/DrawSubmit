@@ -47,13 +47,11 @@ function DrawCanvas({ canvasRef, contextRef }) {
 
   return (
     <canvas
-      onMouseDown={drawStart}
-      onTouchStart={drawStart}
-      onMouseUp={drawEnd}
-      onTouchEnd={drawEnd}
-      onMouseMove={draw}
-      onTouchMove={draw}
+      onPointerDown={drawStart}
+      onPointerUp={drawEnd}
+      onPointerMove={draw}
       ref={canvasRef}
+      style={{ touchAction: 'none' }}
     />
   )
 }
