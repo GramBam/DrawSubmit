@@ -9,6 +9,10 @@ const getEntries = asyncHandler(async (req, res) => {
 
 const createEntry = asyncHandler(async (req, res) => {
   const { dataURL, title } = req.body
+
+  if (!dataURL.includes('data:image/png;base64')) {
+    return res.status(400).json({ message: 'Nice try' })
+  }
   const entry = await Entry.create({ dataURL, title })
 
   // Created
