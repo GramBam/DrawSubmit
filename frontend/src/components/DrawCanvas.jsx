@@ -21,7 +21,6 @@ function DrawCanvas({ canvasRef, contextRef }) {
   }, [canvasRef, contextRef])
 
   const drawStart = (e) => {
-    // e.preventDefault()
     const { offsetX, offsetY } = e.nativeEvent
     contextRef.current.beginPath()
     contextRef.current.moveTo(offsetX, offsetY)
@@ -36,7 +35,6 @@ function DrawCanvas({ canvasRef, contextRef }) {
   }
 
   const draw = (e) => {
-    // e.preventDefault()
     if (!drawing) {
       return
     }
