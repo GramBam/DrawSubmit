@@ -8,6 +8,7 @@ import BrushTool from "./components/BrushTool";
 function App() {
   const [pics, setPics] = useState();
   const [title, setTitle] = useState('');
+  const [submitted, setSubmitted] = useState(false)
   const [picsLoaded, setPicsLoaded] = useState(false);
   const canvasRef = useRef(null)
   const contextRef = useRef(null)
@@ -22,9 +23,13 @@ function App() {
   }, [])
 
   const submit = async () => {
+    if (submitted) {
+      return
+    }
     const canvas = canvasRef.current
     let image = canvas.toDataURL('image/png');
     await axios.post('/api/entries/', { dataURL: image, title: title })
+    setSubmitted(true)
     await axios.get('/api/entries/').then(res => setPics(res.data.reverse()))
   }
 
@@ -43,11 +48,11 @@ function App() {
           <BrushTool canvasRef={canvasRef} contextRef={contextRef} />
         </div>
 
-        <input type='text' className='titleInput' placeholder='TITLE' maxLength={12} onChange={(e) => { setTitle(e.target.value) }}></input>
+        <input type='text' className='titleInput' placeholder='TITLE' maxLength={12} onChange={(e) => { setTitle(e.target.value.toUpperCase()) }}></input>
 
         <div className="options">
           <button onClick={clear}>CLEAR</button>
-          <button onClick={submit}>SUBMIT</button>
+          <button onClick={submit} style={{ cursor: submitted ? 'default' : 'pointer' }} >{submitted ? 'SUBMITTED!' : 'SUBMIT'}</button>
         </div>
 
         {picsLoaded && <PicsDisplay pics={pics} />}
