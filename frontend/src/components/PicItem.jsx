@@ -1,5 +1,5 @@
-function PicItem({ src, time }) {
-  const date = new Date(time)
+function PicItem({ src, timestamp, title }) {
+  const date = new Date(timestamp)
   const dateString = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
 
   const getTimeString = () => {
@@ -15,6 +15,7 @@ function PicItem({ src, time }) {
 
   return (
     <div className="picItem">
+      <p>{title}</p>
       <img src={src} alt="Pic" />
       <p>{dateString + ' - ' + getTimeString()}</p>
     </div>

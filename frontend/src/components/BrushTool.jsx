@@ -18,10 +18,10 @@ function BrushTool({ canvasRef, contextRef }) {
     <div className="tool">
       <p>Brush Size</p>
       <div className="toolContainer">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((size) => {
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((s) => {
           return (
-            <button id={size.toString()} onClick={brushChange} key={size} >
-              <span id={size.toString()} className="dot" style={{ width: size * 3, height: size * 3 }}></span>
+            <button id={s.toString()} onClick={brushChange} key={s} >
+              <span id={s.toString()} className="dot" style={{ width: s * 3, height: s * 3 }}></span>
             </button>
           )
         })}

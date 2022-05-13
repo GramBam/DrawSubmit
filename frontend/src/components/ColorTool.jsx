@@ -16,12 +16,20 @@ function ColorTool({ canvasRef, contextRef }) {
 
   const defaultColors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FFC600', '#800080', '#000000', '#FFFFFF', '#808080']
 
+  const getBorder = (c) => {
+    if (c === '#000000' && c === color) {
+      return '3px solid #FFF'
+    } else {
+      return color === c ? '3px solid #000' : 'none'
+    }
+  }
+
   return (
     <div className="tool">
       <p>COLOR</p>
       <div className="toolContainer">
-        {defaultColors.map((color) => {
-          return <button style={{ backgroundColor: color }} id={color} onClick={colorChange} key={color}></button>
+        {defaultColors.map((c) => {
+          return <button style={{ backgroundColor: c, border: getBorder(c) }} id={c} onClick={colorChange} key={c}></button>
         })}
         <input id='picker' type='color' onChange={colorChange} value={color} />
       </div>

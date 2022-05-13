@@ -5,7 +5,6 @@ function DrawCanvas({ canvasRef, contextRef }) {
 
   useEffect(() => {
     const canvas = canvasRef.current
-    console.log(window.innerWidth);
     let width = window.innerWidth < 800 ? 550 : window.innerWidth
     let height = window.innerWidth < 800 ? 600 : window.innerHeight
     canvas.width = width
@@ -22,6 +21,7 @@ function DrawCanvas({ canvasRef, contextRef }) {
   }, [canvasRef, contextRef])
 
   const drawStart = (e) => {
+    // e.preventDefault()
     const { offsetX, offsetY } = e.nativeEvent
     contextRef.current.beginPath()
     contextRef.current.moveTo(offsetX, offsetY)
@@ -36,6 +36,7 @@ function DrawCanvas({ canvasRef, contextRef }) {
   }
 
   const draw = (e) => {
+    // e.preventDefault()
     if (!drawing) {
       return
     }

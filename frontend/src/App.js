@@ -7,6 +7,7 @@ import BrushTool from "./components/BrushTool";
 
 function App() {
   const [pics, setPics] = useState();
+  const [title, setTitle] = useState('');
   const [picsLoaded, setPicsLoaded] = useState(false);
   const canvasRef = useRef(null)
   const contextRef = useRef(null)
@@ -23,7 +24,7 @@ function App() {
   const submit = async () => {
     const canvas = canvasRef.current
     let image = canvas.toDataURL('image/png');
-    await axios.post('/api/entries/', { dataURL: image })
+    await axios.post('/api/entries/', { dataURL: image, title: title })
     await axios.get('/api/entries/').then(res => setPics(res.data.reverse()))
   }
 
@@ -42,12 +43,14 @@ function App() {
           <BrushTool canvasRef={canvasRef} contextRef={contextRef} />
         </div>
 
+        <input type='text' className='titleInput' placeholder='TITLE' maxLength={12} onChange={(e) => { setTitle(e.target.value) }}></input>
+
         <div className="options">
           <button onClick={clear}>CLEAR</button>
           <button onClick={submit}>SUBMIT</button>
         </div>
 
-        {picsLoaded && <PicsDisplay pics={pics.reverse()} />}
+        {picsLoaded && <PicsDisplay pics={pics} />}
       </div>
     </>
 

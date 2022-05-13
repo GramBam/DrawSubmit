@@ -8,8 +8,8 @@ const getEntries = asyncHandler(async (req, res) => {
 
 
 const createEntry = asyncHandler(async (req, res) => {
-  const { dataURL } = req.body
-  const entry = await Entry.create({ dataURL })
+  const { dataURL, title } = req.body
+  const entry = await Entry.create({ dataURL, title })
 
   // Created
   res.status(201).json(entry)
