@@ -2,8 +2,15 @@ const asyncHandler = require('express-async-handler')
 const Entry = require('../models/entryModel')
 
 const getEntries = asyncHandler(async (req, res) => {
-  const entries = await Entry.find()
+  console.log(req.query);
+  const entries = await Entry.find().sort({ createdAt: 'desc' }).skip(req.query.from).limit(req.query._limit)
   res.status(200).json(entries)
+})
+
+const getLatest = asyncHandler(async (req, res) => {
+  console.log(req);
+  const entry = await Entry.findOne({}, {}, { sort: { 'createdAt': -1 } })
+  res.status(200).json(entry)
 })
 
 
@@ -19,4 +26,4 @@ const createEntry = asyncHandler(async (req, res) => {
   res.status(201).json(entry)
 })
 
-module.exports = { getEntries, createEntry }
+module.exports = { getEntries, createEntry, getLatest }

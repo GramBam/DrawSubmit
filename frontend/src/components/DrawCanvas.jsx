@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-function DrawCanvas({ canvasRef, contextRef }) {
+function DrawCanvas({ canvasRef, contextRef, cb }) {
   const [drawing, setDrawing] = useState(false)
 
   useEffect(() => {
@@ -27,6 +27,7 @@ function DrawCanvas({ canvasRef, contextRef }) {
     contextRef.current.lineTo(offsetX, offsetY)
     contextRef.current.stroke()
     setDrawing(true)
+    cb()
   }
 
   const drawEnd = () => {

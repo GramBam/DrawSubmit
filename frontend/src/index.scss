@@ -99,20 +99,19 @@ canvas {
   width: 50vw;
   justify-content: space-around;
   margin: 0 0 15px 0;
+}
 
-  button {
-    width: 125px;
-    height: 50px;
-    background-color: #000;
-    border: none;
-    color: #FFC600;
-    font-size: 18px;
-    border-radius: 20px;
-    cursor: pointer;
-    margin: 0 2px;
-    width: 130px;
-    height: 45px;
-  }
+.main-btn {
+  background-color: #000;
+  border: none;
+  color: #FFC600;
+  font-size: 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin: 0 2px;
+  width: 130px;
+  height: 45px;
+  margin-bottom: 20px;
 }
 
 .titleInput {
