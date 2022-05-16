@@ -15,7 +15,7 @@ const getLatest = asyncHandler(async (req, res) => {
 const createEntry = asyncHandler(async (req, res) => {
   const { dataURL, title } = req.body
 
-  if (!dataURL.includes('data:image/png;base64')) {
+  if (!dataURL.includes('data:image/png;base64') || title.length > 12) {
     return res.status(400).json({ message: 'Nice try' })
   }
   const entry = await Entry.create({ dataURL, title })
@@ -24,4 +24,13 @@ const createEntry = asyncHandler(async (req, res) => {
   res.status(201).json(entry)
 })
 
-module.exports = { getEntries, createEntry, getLatest }
+const deleteEntry = asyncHandler(async (req, res) => {
+  const entries = await Entry.find({ title: req.body.title })
+  for (let i = 0; i < entries.length; i++) {
+    const element = entries[i];
+    await element.remove()
+    console.log('REMOVED: ', element.title, element.createdAt);
+  }
+})
+
+module.exports = { getEntries, createEntry, getLatest, deleteEntry }
