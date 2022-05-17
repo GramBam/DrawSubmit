@@ -72,45 +72,30 @@ function App() {
       });
   }
 
-  // WIP
 
-  // const loadAllItems = () => {
-  //   setIsFetching(true);
-  //   for (let i = 0; i < total; i++) {
-  //     axios({
-  //       method: "GET",
-  //       url: "/api/entries/",
-  //       params: { from: index, _limit: 1 },
+  const loadAllItems = async () => {
+    setIsFetching(true);
+    let amount = total - (index + 1)
 
-  //     })
-  //       .then((res) => {
-  //         setPics((prev) => {
-  //           return [...new Set([...prev, ...res.data])];
-  //         });
-  //         console.log(res.data.length)
-  //         setIndex((prev) => prev += res.data.length)
-  //         setIsFetching(false);
-  //         setMoreEntries(res.data.length > 0)
-  //       })
+    for (let i = amount; i > index; i--) {
+      await axios({
+        method: "GET",
+        url: "/api/entries/getOne",
+        params: { from: i - (index + 1) },
 
-  //   }
-  //   axios({
-  //     method: "GET",
-  //     url: "/api/entries/",
-  //   })
-  //     .then((res) => {
-  //       setPics((prev) => {
-  //         return [...new Set([...prev, ...res.data])];
-  //       });
-  //       console.log(res.data.length)
-  //       setIndex((prev) => prev += res.data.length)
-  //       setIsFetching(false);
-  //       setMoreEntries(res.data.length > 0)
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //     });
-  // }
+      })
+        .then((res) => {
+          setPics((prev) => {
+            return [...new Set([...prev, res.data])];
+          });
+          setIndex((prev) => prev++)
+          setMoreEntries(false)
+        })
+
+    }
+
+    setIsFetching(false)
+  }
 
   return (
     <>
@@ -134,7 +119,7 @@ function App() {
         {!isFetching && moreEntries && picsLoaded && (
           <div>
             <button className='main-btn' onClick={loadMoreItems}>Load more</button>
-            {/* <button className='main-btn' onClick={loadAllItems}>Load All ({total})</button> */}
+            <button className='main-btn' onClick={loadAllItems}>Load All ({total})</button>
           </div>
         )}
       </div>

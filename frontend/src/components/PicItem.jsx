@@ -1,3 +1,5 @@
+import axios from "axios";
+
 function PicItem({ src, timestamp, title }) {
   const date = new Date(timestamp)
   const dateString = date.getDate() + '/' + (Number(date.getMonth()) + 1) + '/' + date.getFullYear()
@@ -13,7 +15,11 @@ function PicItem({ src, timestamp, title }) {
     return strTime;
   }
 
-  const openImg = () => {
+  const openImg = (e) => {
+    // if (e.button === 3) {
+    //   axios({ method: 'DELETE', url: '/api/entries/delete', params: { createdAt: timestamp } })
+    //   return
+    // }
     const base64ImageData = src;
     const contentType = 'image/png';
     const byteCharacters = atob(base64ImageData.substr(`data:${contentType};base64,`.length));
@@ -40,7 +46,7 @@ function PicItem({ src, timestamp, title }) {
   return (
     <div className="picItem">
       <p>{title}</p>
-      <img id='PicItem' src={src} alt="Pic" style={{ cursor: 'pointer' }} onClick={openImg} />
+      <img id='PicItem' src={src} alt="Pic" style={{ cursor: 'pointer' }} onPointerDown={openImg} />
       <p>{dateString + ' - ' + getTimeString()}</p>
     </div>
   )

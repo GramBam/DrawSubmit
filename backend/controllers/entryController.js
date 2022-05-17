@@ -2,8 +2,17 @@ const asyncHandler = require('express-async-handler')
 const Entry = require('../models/entryModel')
 
 const getEntries = asyncHandler(async (req, res) => {
-  const entries = await Entry.find().sort({ createdAt: 'desc' }).skip(req.query.from).limit(req.query._limit)
+  const entries = await Entry.find().limit(req.query._limit).skip(req.query.from).sort({ createdAt: 'desc' }).allowDiskUse(true)
   res.status(200).json(entries)
+})
+
+const getOne = asyncHandler(async (req, res) => {
+  if (req.query.from < 0) {
+    return res.status(500)
+  }
+  const entry = await Entry.findOne({}, {}).allowDiskUse(true).skip(req.query.from)
+
+  res.status(200).json(entry)
 })
 
 const getLatest = asyncHandler(async (req, res) => {
@@ -30,12 +39,18 @@ const createEntry = asyncHandler(async (req, res) => {
 })
 
 const deleteEntry = asyncHandler(async (req, res) => {
-  const entries = await Entry.find({ title: req.body.title })
-  for (let i = 0; i < entries.length; i++) {
-    const element = entries[i];
-    await element.remove()
-    console.log('REMOVED: ', element.title, element.createdAt);
-  }
+  // let entry = await Entry.findOne({ createdAt: req.query.createdAt })
+  // console.log(entry);
+  // entry.remove()
+  // let entries = await Entry.find({ title: '' })
+  // let x = entries.filter((e) => new Date(e.createdAt).toLocaleTimeString().includes('12:20'))
+  // console.log(x);
+  // // const entries = await Entry.find({ title: req.body.title })
+  // for (let i = 0; i < x.length; i++) {
+  //   const element = x[i];
+  //   await element.remove()
+  //   console.log('REMOVED: ', element.title, element.createdAt);
+  // }
 })
 
-module.exports = { getEntries, createEntry, getLatest, deleteEntry, getAmount }
+module.exports = { getEntries, createEntry, getLatest, deleteEntry, getAmount, getOne }
