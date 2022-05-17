@@ -12,10 +12,12 @@ function App() {
   const [picsLoaded, setPicsLoaded] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [index, setIndex] = useState(0)
+  const [total, setTotal] = useState(0)
   const [moreEntries, setMoreEntries] = useState(true)
   const canvasRef = useRef(null)
   const contextRef = useRef(null)
   const loadAmount = 21;
+
 
   useEffect(() => {
     const getPics = async () => await axios({ method: 'GET', url: '/api/entries/', params: { from: index, _limit: loadAmount } })
@@ -25,6 +27,9 @@ function App() {
         setIndex(loadAmount)
       })
     getPics();
+
+    axios({ method: 'GET', url: '/api/entries/amount' }).then((res) => setTotal(res.data))
+
   }, [])
 
   const submit = async () => {
@@ -67,6 +72,46 @@ function App() {
       });
   }
 
+  // WIP
+
+  // const loadAllItems = () => {
+  //   setIsFetching(true);
+  //   for (let i = 0; i < total; i++) {
+  //     axios({
+  //       method: "GET",
+  //       url: "/api/entries/",
+  //       params: { from: index, _limit: 1 },
+
+  //     })
+  //       .then((res) => {
+  //         setPics((prev) => {
+  //           return [...new Set([...prev, ...res.data])];
+  //         });
+  //         console.log(res.data.length)
+  //         setIndex((prev) => prev += res.data.length)
+  //         setIsFetching(false);
+  //         setMoreEntries(res.data.length > 0)
+  //       })
+
+  //   }
+  //   axios({
+  //     method: "GET",
+  //     url: "/api/entries/",
+  //   })
+  //     .then((res) => {
+  //       setPics((prev) => {
+  //         return [...new Set([...prev, ...res.data])];
+  //       });
+  //       console.log(res.data.length)
+  //       setIndex((prev) => prev += res.data.length)
+  //       setIsFetching(false);
+  //       setMoreEntries(res.data.length > 0)
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // }
+
   return (
     <>
       <div className="main">
@@ -85,9 +130,12 @@ function App() {
 
         {picsLoaded && <PicsDisplay pics={pics} />}
 
-        {isFetching && <p>Fetching items...</p>}
+        {isFetching && <p>Fetching Entries...</p>}
         {!isFetching && moreEntries && picsLoaded && (
-          <button className='main-btn' onClick={loadMoreItems}>Load more</button>
+          <div>
+            <button className='main-btn' onClick={loadMoreItems}>Load more</button>
+            {/* <button className='main-btn' onClick={loadAllItems}>Load All ({total})</button> */}
+          </div>
         )}
       </div>
     </>

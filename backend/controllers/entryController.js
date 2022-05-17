@@ -11,6 +11,11 @@ const getLatest = asyncHandler(async (req, res) => {
   res.status(200).json(entry)
 })
 
+const getAmount = asyncHandler(async (req, res) => {
+  const amount = await Entry.count()
+  res.status(200).json(amount)
+})
+
 
 const createEntry = asyncHandler(async (req, res) => {
   const { dataURL, title } = req.body
@@ -33,4 +38,4 @@ const deleteEntry = asyncHandler(async (req, res) => {
   }
 })
 
-module.exports = { getEntries, createEntry, getLatest, deleteEntry }
+module.exports = { getEntries, createEntry, getLatest, deleteEntry, getAmount }
