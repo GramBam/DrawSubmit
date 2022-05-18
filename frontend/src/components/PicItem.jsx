@@ -40,13 +40,14 @@ function PicItem({ src, timestamp, title }) {
     const blob = new Blob(byteArrays, { type: contentType });
     const blobUrl = URL.createObjectURL(blob);
 
-    window.open(blobUrl, '_blank');
+    let x = window.open(blobUrl, '_blank');
+    x.addEventListener("load", () => x.document.getElementsByTagName("img")[0].style.backgroundColor = "#FFFFFF");
   }
 
   return (
     <div className="picItem">
       <p>{title}</p>
-      <img id='PicItem' src={src} alt="Pic" style={{ cursor: 'pointer' }} onPointerDown={openImg} />
+      <img id='PicItem' src={src} alt="Pic" style={{ cursor: 'pointer' }} onClick={openImg} />
       <p>{dateString + ' - ' + getTimeString()}</p>
     </div>
   )

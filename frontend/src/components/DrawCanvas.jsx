@@ -19,9 +19,6 @@ function DrawCanvas({ canvasRef, contextRef, cb }) {
     context.lineWidth = 5
     contextRef.current = context
 
-    context.fillStyle = "#FFFFFF";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
   }, [canvasRef, contextRef])
 
   const drawStart = (e) => {
