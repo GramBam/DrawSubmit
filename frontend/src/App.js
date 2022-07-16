@@ -20,11 +20,13 @@ function App() {
 
 
   useEffect(() => {
+    setIsFetching(true)
     const getPics = async () => await axios({ method: 'GET', url: '/api/entries/', params: { from: index, _limit: loadAmount } })
       .then(res => {
         setPics(res.data);
         setPicsLoaded(true)
         setIndex(loadAmount)
+        setIsFetching(false)
       })
     getPics();
 
@@ -117,7 +119,7 @@ function App() {
 
         {isFetching && <p>Fetching Entries...</p>}
         {!isFetching && moreEntries && picsLoaded && (
-          <div>
+          <div style={{ display: 'flex' }}>
             <button className='main-btn' onClick={loadMoreItems}>Load more</button>
             <button className='main-btn' onClick={loadAllItems}>Load All ({total})</button>
           </div>
